@@ -55,9 +55,8 @@ macro(find_lto lang)
 
       message(STATUS "Checking for LTO Compatibility")
       # Since GCC 4.9 we need to use gcc-ar / gcc-ranlib / gcc-nm
-      if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT (CMAKE_CXX_COMPILER_VERSION VERSION_LESS 4.9.0))
-          # LTO/IPO
-          if(NOT CMAKE_GCC_AR OR NOT CMAKE_GCC_RANLIB OR NOT CMAKE_GCC_NM)
+      if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+          if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_GCC_AR OR NOT CMAKE_GCC_RANLIB OR NOT CMAKE_GCC_NM)
               find_program(CMAKE_GCC_AR NAMES
                 "${_CMAKE_TOOLCHAIN_PREFIX}gcc-ar"
                 "${_CMAKE_TOOLCHAIN_PREFIX}gcc-ar-${_version}"
@@ -75,9 +74,17 @@ macro(find_lto lang)
                 DOC "gcc provided wrapper for nm which adds the --plugin option"
               )
               mark_as_advanced(CMAKE_GCC_AR CMAKE_GCC_RANLIB CMAKE_GCC_NM)
+			  set(CMAKE_LTO_AR ${CMAKE_GCC_AR})
+			  set(CMAKE_LTO_RANLIB ${CMAKE_GCC_RANLIB})
+			  set(CMAKE_LTO_NM ${CMAKE_GCC_NM})
           endif()
+		  if("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+			  set(CMAKE_LTO_AR ${CMAKE_AR})
+			  set(CMAKE_LTO_RANLIB ${CMAKE_RANLIB})
+			  set(CMAKE_LTO_NM ${CMAKE_NM})
+		  endif()
 
-          if(CMAKE_GCC_AR AND CMAKE_GCC_RANLIB)
+          if(CMAKE_LTO_AR AND CMAKE_LTO_RANLIB)
             set(__lto_flags -flto)
 
             if(NOT CMAKE_${lang}_COMPILER_VERSION VERSION_LESS 4.7)
@@ -100,7 +107,7 @@ macro(find_lto lang)
 
               if("${__result}" STREQUAL "0")
                 execute_process(
-                  COMMAND ${CMAKE_GCC_AR} cr "${__output_base}.a" "${__output_base}.o"
+                  COMMAND ${CMAKE_LTO_AR} cr "${__output_base}.a" "${__output_base}.o"
                   RESULT_VARIABLE __result
                   ERROR_QUIET
                   OUTPUT_QUIET
@@ -109,7 +116,7 @@ macro(find_lto lang)
 
               if("${__result}" STREQUAL "0")
                 execute_process(
-                  COMMAND ${CMAKE_GCC_RANLIB} "${__output_base}.a"
+                  COMMAND ${CMAKE_LTO_RANLIB} "${__output_base}.a"
                   RESULT_VARIABLE __result
                   ERROR_QUIET
                   OUTPUT_QUIET
@@ -136,11 +143,6 @@ macro(find_lto lang)
                 "If the compiler passed a simple LTO test compile")
             endif()
             if(CMAKE_${lang}_PASSED_LTO_TEST)
-              # THIS IS HACKY BUT THERE IS NO OTHER SOLUTION ATM
-              set(CMAKE_AR ${CMAKE_GCC_AR} CACHE FILEPATH "Forcing gcc-ar instead of ar" FORCE)
-              set(CMAKE_NM ${CMAKE_GCC_NM} CACHE FILEPATH "Forcing gcc-nm instead of nm" FORCE)
-              set(CMAKE_RANLIB ${CMAKE_GCC_RANLIB} CACHE FILEPATH "Forcing gcc-ranlib instead of ranlib" FORCE)
-
               message(STATUS "Checking for LTO Compatibility - works")
               set(LTO_${lang}_SUPPORT TRUE CACHE BOOL "Do we have LTO support ?")
               set(LTO_COMPILE_FLAGS -flto CACHE STRING "Link Time Optimization compile flags")
@@ -150,6 +152,11 @@ macro(find_lto lang)
             endif()
 
           endif()
+		elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+			message(STATUS "Checking for LTO Compatibility - works (assumed for clang)")
+			set(LTO_${lang}_SUPPORT TRUE CACHE BOOL "Do we have LTO support ?")
+			set(LTO_COMPILE_FLAGS -flto CACHE STRING "Link Time Optimization compile flags")
+			set(LTO_LINK_FLAGS -flto CACHE STRING "Link Time Optimization link flags")
         elseif(MSVC)
             message(STATUS "Checking for LTO Compatibility - works")
             set(LTO_${lang}_SUPPORT TRUE CACHE BOOL "Do we have LTO support ?")
@@ -163,7 +170,12 @@ macro(find_lto lang)
 
         set(LTO_${lang}_CHECKED TRUE CACHE INTERNAL "" )
     endif(ENABLE_LTO AND NOT LTO_${lang}_CHECKED)
-
+	if(CMAKE_GCC_AR AND CMAKE_GCC_RANLIB AND CMAKE_GCC_NM)
+		# THIS IS HACKY BUT THERE IS NO OTHER SOLUTION ATM
+		set(CMAKE_AR ${CMAKE_GCC_AR} CACHE FILEPATH "Forcing gcc-ar instead of ar" FORCE)
+		set(CMAKE_NM ${CMAKE_GCC_NM} CACHE FILEPATH "Forcing gcc-nm instead of nm" FORCE)
+		set(CMAKE_RANLIB ${CMAKE_GCC_RANLIB} CACHE FILEPATH "Forcing gcc-ranlib instead of ranlib" FORCE)
+	endif()
     if(NOT TARGET enable_lto)
         add_library(enable_lto INTERFACE)
         if(ENABLE_LTO AND LTO_${lang}_SUPPORT)
