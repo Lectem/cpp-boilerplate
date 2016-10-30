@@ -1,0 +1,53 @@
+sudo: false
+language: cpp
+
+compiler:
+  - clang
+  - gcc
+
+os:
+  - linux
+  - osx
+
+env:
+  - BUILD_TYPE=Debug
+  - BUILD_TYPE=Release
+
+addons:
+  apt:
+    sources:
+      # - ubuntu-toolchain-r-test
+      # - llvm-toolchain-precise-3.8
+    packages:
+      - cmake
+      # - gcc-6
+      # - g++-6
+      # - clang-3.8
+
+cache:
+  directories:
+    - $HOME/.local
+
+install:
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
+      mkdir -p $HOME/.local
+      
+      CMAKE_URL="http://cmake.org/files/v3.6/cmake-3.6.2-Linux-x86_64.tar.gz"
+      if [ ! -e $HOME/.local/bin/cmake ]; then
+          echo "CMake not found in the cache, get and extract it..."
+          travis_retry curl -L ${CMAKE_URL} \
+              | tar -xz -C $HOME/.local --strip-components=1
+      else
+          echo "Using cached CMake"
+      fi
+    else
+      if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
+    fi
+  # - if [ "$CXX" = "g++" ]; then export CXX="g++-6" CC="gcc-6"; fi
+  # - if [ "$CXX" = "clang++" ]; then export CXX="clang++-4.0" CC="clang-3.8"; fi
+
+script:
+  - mkdir build && cd build
+  - cmake -DCMAKE_BUILD_TYPE= --config $BUILD_TYPE ..
+  - make -j4
