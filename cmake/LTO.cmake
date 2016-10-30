@@ -55,7 +55,7 @@ macro(find_lto lang)
 
       message(STATUS "Checking for LTO Compatibility")
       # Since GCC 4.9 we need to use gcc-ar / gcc-ranlib / gcc-nm
-      if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+      if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
           if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_GCC_AR OR NOT CMAKE_GCC_RANLIB OR NOT CMAKE_GCC_NM)
               find_program(CMAKE_GCC_AR NAMES
                 "${_CMAKE_TOOLCHAIN_PREFIX}gcc-ar"
@@ -152,7 +152,7 @@ macro(find_lto lang)
             endif()
 
           endif()
-		elseif("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
+		elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 			message(STATUS "Checking for LTO Compatibility - works (assumed for clang)")
 			set(LTO_${lang}_SUPPORT TRUE CACHE BOOL "Do we have LTO support ?")
 			set(LTO_COMPILE_FLAGS -flto CACHE STRING "Link Time Optimization compile flags")

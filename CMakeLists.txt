@@ -32,7 +32,7 @@ target_link_libraries(BoilerPlate
 					general fmt spdlog
 					optimized enable_lto)
 target_include_directories(BoilerPlate PRIVATE include/)
-target_set_warnings(BoilerPlate ENABLE ALL AS_ERROR ALL)
+target_set_warnings(BoilerPlate ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 set_target_properties(BoilerPlate PROPERTIES INTERPROCEDURAL_OPTIMIZATION $<$<CONFIG:Debug>:true $<NOT $<CONFIG:Debug>:false)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
