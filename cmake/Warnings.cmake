@@ -17,7 +17,7 @@ function(target_set_warnings)
 	  if(MSVC)
 		# Not all the warnings, but WAll is unusable when using libraries
 		# Unless you'd like to support MSVC in the code with pragmas, this is probably the best option
-	    list(APPEND WarningFlags "/W4") 
+	    list(APPEND WarningFlags "/W4")
 	  elseif(GCC)
 	    list(APPEND WarningFlags "-Wall" "-Wextra" "-Wpedantic")
 	  elseif(CLANG)
@@ -30,7 +30,7 @@ function(target_set_warnings)
 	    list(APPEND WarningFlags "-w")
 	  endif()
 	endif()
-	
+
 	list(FIND this_DISABLE "Annoying" disable_annoying)
 	if(NOT ${disable_annoying} EQUAL -1)
 	  if(MSVC)
@@ -40,9 +40,13 @@ function(target_set_warnings)
 		#list(APPEND WarningFlags "/wd4514" "/wd4710" "/wd4711")
 		#list(APPEND WarningFlags "/wd4365") #signed/unsigned mismatch
 		#list(APPEND WarningFlags "/wd4668") # is not defined as a preprocessor macro, replacing with '0' for
+	  elseif(CLANG)
+		if(NOT CMAKE_CXX_STANDARD EQUAL 98)
+			list(APPEND WarningFlags -Wno-c++98-compat  -Wno-c++98-compat-pedantic)
+		endif()
 	  endif()
 	endif()
-	
+
 	if(NOT ${as_error_all} EQUAL -1)
 	  if(MSVC)
 	    list(APPEND WarningFlags "/WX")
