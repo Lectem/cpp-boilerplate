@@ -48,7 +48,7 @@
 
 cmake_minimum_required(VERSION 3.0)
 
-option(ENABLE_LTO "enable link time optimization (GCC/CLANG)" ON)
+option(ENABLE_LTO "enable link time optimization (GCC/CLANG)" OFF)
 
 macro(find_lto lang)
     if(ENABLE_LTO AND NOT LTO_${lang}_CHECKED)
