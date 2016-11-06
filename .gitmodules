@@ -1,6 +1,6 @@
 [submodule "external/fmt"]
 	path = external/fmt
-	url = https://github.com/lectem/fmt.git
+	url = https://github.com/fmtlib/fmt.git
 [submodule "external/spdlog"]
 	path = external/spdlog
 	url = https://github.com/gabime/spdlog.git
