@@ -20,12 +20,12 @@ matrix:
       env: BUILD_TYPE=Release COMPILER_VER=6
     - os: linux
       compiler: clang
-      addons: {apt: {packages: [clang-3.8,libc++] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.8]}}
-      env: BUILD_TYPE=Debug COMPILER_VER=3.8 CXXFLAGS="-stdlib=libc++"
+      addons: {apt: {packages: [clang-3.8,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.8]}}
+      env: BUILD_TYPE=Debug COMPILER_VER=3.8
     - os: linux
       compiler: clang
-      addons: {apt: {packages: [clang-3.8,libc++] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.8]}}
-      env: BUILD_TYPE=Release COMPILER_VER=3.8 CXXFLAGS="-stdlib=libc++"
+      addons: {apt: {packages: [clang-3.8,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.8]}}
+      env: BUILD_TYPE=Release COMPILER_VER=3.8
 
 
 cache:
