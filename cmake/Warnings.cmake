@@ -42,7 +42,7 @@ function(target_set_warnings)
 		#list(APPEND WarningFlags "/wd4668") # is not defined as a preprocessor macro, replacing with '0' for
 	  elseif(CLANG)
 		if(NOT CMAKE_CXX_STANDARD EQUAL 98)
-			list(APPEND WarningFlags -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded)
+			list(APPEND WarningFlags -Wno-c++98-compat -Wno-c++98-compat-pedantic -Wno-padded -Wno-undef -Wno-reserved-id-macro)
 		endif()
 	  endif()
 	endif()
