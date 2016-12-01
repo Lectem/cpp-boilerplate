@@ -18,7 +18,7 @@ configuration:
 environment:
   matrix:
     - TOOLSET: v140
-    - TOOLSET: LLVM-vs2014
+    - TOOLSET: v140_clang_c2
   
 matrix:
   fast_finish: true
