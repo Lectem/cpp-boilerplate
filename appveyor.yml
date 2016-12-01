@@ -18,14 +18,10 @@ configuration:
 environment:
   matrix:
     - TOOLSET: v140
-    - TOOLSET: v140_clang_3_7
+    - TOOLSET: LLVM-vs2014
   
 matrix:
   fast_finish: true
-  allow_failures:
-    - platform: Win32
-      configuration: Debug
-      TOOLSET: v140_clang_3_7
 
 # scripts that are called at very beginning, before repo cloning
 init:
