@@ -7,16 +7,20 @@ endif()
 include(cmake/LTO.cmake)
 include(cmake/Warnings.cmake)
 
+# We want at least c++14
+IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
+    set(CMAKE_CXX_FLAGS "-std=c++14")
+ELSE()
+    set(CMAKE_CXX_STANDARD 14)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+ENDIF()
+
 project(BoilerPlateProject C CXX)
 
 find_lto(CXX)
 
 # External dependencies
 add_subdirectory(external EXCLUDE_FROM_ALL)
-
-# We want at least c++14
-set(CMAKE_CXX_STANDARD 14)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(MSVC)
     add_definitions(/DNOMINMAX)
