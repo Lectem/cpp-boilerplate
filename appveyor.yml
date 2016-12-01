@@ -14,7 +14,12 @@ platform:
 configuration:
   - Debug
   - Release
-
+  
+environment:
+  matrix:
+    - TOOLSET: v140
+    - TOOLSET: v140_clang_3_7
+  
 matrix:
   fast_finish: true
 
@@ -31,7 +36,7 @@ before_build:
   - cd build
   - if "%platform%"=="Win32" set CMAKE_GENERATOR_NAME=Visual Studio 14 2015
   - if "%platform%"=="x64"   set CMAKE_GENERATOR_NAME=Visual Studio 14 2015 Win64
-  - cmake -G "%CMAKE_GENERATOR_NAME%" -DCMAKE_BUILD_TYPE=%configuration% ..
+  - cmake -G "%CMAKE_GENERATOR_NAME%" -T %TOOLSET% -DCMAKE_BUILD_TYPE=%configuration% ..
   - cd ..
 
 build:
