@@ -38,7 +38,7 @@ before_build:
   - cd build
   - if "%platform%"=="Win32" set CMAKE_GENERATOR_NAME=Visual Studio 14 2015
   - if "%platform%"=="x64"   set CMAKE_GENERATOR_NAME=Visual Studio 14 2015 Win64
-  - cmake -G "%CMAKE_GENERATOR_NAME%" -T %TOOLSET% -DCMAKE_BUILD_TYPE=%configuration% ..
+  - cmake -G "%CMAKE_GENERATOR_NAME%" -T %TOOLSET% -DCMAKE_BUILD_TYPE=%configuration% -DBP_BUILD_TESTS=ON ..
   - cd ..
 
 build:
@@ -48,6 +48,7 @@ build:
   
 test_script:
   - cd build
-  - ctest -C %configuration%
+  # -E excludes tests. Since we know failtest should fail, don't run it
+  - ctest -C %configuration% -E failtest --output-on-failure
   - cd ..
 

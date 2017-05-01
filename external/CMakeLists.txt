@@ -18,3 +18,4 @@ target_include_directories(
 #Add new external (non-interface) targets to this list
 set_target_properties(fmt PROPERTIES FOLDER "external")
 
+unset(BUILD_TESTING CACHE) # We will define our own option for tests

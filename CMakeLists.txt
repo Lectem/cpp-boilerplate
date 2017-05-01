@@ -16,7 +16,13 @@ ELSE()
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
 ENDIF()
 
+###################
+#### Project ######
+###################
+
 project(BoilerPlateProject C CXX)
+
+option(BP_BUILD_TESTS "Enable the tests targets" OFF)
 
 find_lto(CXX)
 
@@ -45,6 +51,7 @@ set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
 #############
 ### Tests ###
 #############
-enable_testing() # Must be in top CMakeLists.txt to be work with ctest
-add_subdirectory(tests)
-#add_test(NAME test1 COMMAND BoilerPlate CONFIGURATIONS DEBUG)
+if(BP_BUILD_TESTS)
+    enable_testing() # Must be in top CMakeLists.txt to be work with ctest
+    add_subdirectory(tests)
+endif()
