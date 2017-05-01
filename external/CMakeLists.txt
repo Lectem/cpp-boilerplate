@@ -1,5 +1,7 @@
 project(external C CXX)
 
+set(BUILD_TESTING OFF CACHE BOOL "Force disable of tests for external dependencies" FORCE)
+
 #Use fmtlib for formatting
 add_subdirectory(fmt EXCLUDE_FROM_ALL)
 
