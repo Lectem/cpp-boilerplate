@@ -9,7 +9,8 @@ include(cmake/Warnings.cmake)
 
 # We want at least c++14
 IF ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" AND "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC")
-    set(CMAKE_CXX_FLAGS "-std=c++14")
+    # Required for MSVC + clang frontend
+	set(CMAKE_CXX_FLAGS "-std=c++14")
 ELSE()
     set(CMAKE_CXX_STANDARD 14)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -40,3 +41,10 @@ target_set_warnings(BoilerPlate ENABLE ALL AS_ERROR ALL DISABLE Annoying)
 set_target_properties(BoilerPlate PROPERTIES INTERPROCEDURAL_OPTIMIZATION $<$<CONFIG:Debug>:true $<NOT $<CONFIG:Debug>:false)
 
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
+
+#############
+### Tests ###
+#############
+enable_testing() # Must be in top CMakeLists.txt to be work with ctest
+add_subdirectory(tests)
+#add_test(NAME test1 COMMAND BoilerPlate CONFIGURATIONS DEBUG)

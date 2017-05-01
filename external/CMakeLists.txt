@@ -7,5 +7,14 @@ add_subdirectory(fmt EXCLUDE_FROM_ALL)
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 target_compile_definitions(spdlog INTERFACE SPDLOG_FMT_EXTERNAL)
 
+#Doctest for unit tests
+add_library(doctest INTERFACE)
+target_include_directories(
+    doctest
+    INTERFACE
+    doctest/doctest # note : will expose the parts/ folder...
+)
+
 #Add new external (non-interface) targets to this list
 set_target_properties(fmt PROPERTIES FOLDER "external")
+
