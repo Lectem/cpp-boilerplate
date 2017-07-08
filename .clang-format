@@ -27,6 +27,7 @@ IncludeCategories:
     Priority:        3
 PointerAlignment: Left
 PenaltyExcessCharacter: 200 # for doxygen inline comments (or it would break before the member name) should be enough for the rest
+AllowShortFunctionsOnASingleLine: All
 
 # Unchanged
 
@@ -35,7 +36,6 @@ AlignEscapedNewlinesLeft: false
 AlignOperands:   true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortFunctionsOnASingleLine: All
 AllowShortLoopsOnASingleLine: false
 AlwaysBreakAfterDefinitionReturnType: None
 AlwaysBreakAfterReturnType: None
@@ -47,7 +47,7 @@ BraceWrapping:
   AfterControlStatement: false
   AfterEnum:       false
   AfterFunction:   false
-  AfterNamespace:  false
+  AfterNamespace:  true
   AfterObjCDeclaration: false
   AfterStruct:     false
   AfterUnion:      false
