@@ -1,5 +1,6 @@
 project(external C CXX)
 
+set(BUILD_TESTING_BCKP ${BUILD_TESTING})
 set(BUILD_TESTING OFF CACHE BOOL "Force disable of tests for external dependencies" FORCE)
 
 #Use fmtlib for formatting
@@ -20,4 +21,4 @@ target_include_directories(
 #Add new external (non-interface) targets to this list
 set_target_properties(fmt PROPERTIES FOLDER "external")
 
-unset(BUILD_TESTING CACHE) # We will define our own option for tests
+set(BUILD_TESTING ${BUILD_TESTING} CACHE BOOL "Build tests (default variable for CTest)" FORCE) #Set it back to its past value
