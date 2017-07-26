@@ -39,7 +39,7 @@ install:
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       mkdir -p $HOME/.local
 
-      CMAKE_URL="http://cmake.org/files/v3.6/cmake-3.6.2-Linux-x86_64.tar.gz"
+      CMAKE_URL="http://cmake.org/files/v3.9/cmake-3.9.0-Linux-x86_64.tar.gz"
       if [ ! -e $HOME/.local/bin/cmake ]; then
           echo "CMake not found in the cache, get and extract it..."
           travis_retry curl -L ${CMAKE_URL} \
@@ -47,8 +47,10 @@ install:
       else
           echo "Using cached CMake"
       fi
-    else
-      if ! brew ls --version cmake &>/dev/null; then brew install cmake; fi
+    fi
+  - |
+    if [[ "${TRAVIS_OS_NAME}" == "osx" ]]; then
+      brew upgrade cmake || brew install cmake
     fi
 
 script:
