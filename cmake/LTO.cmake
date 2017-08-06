@@ -14,11 +14,11 @@
 #
 # Then to enable LTO for your target use
 #
-# 		target_enable_lto(mytarget general)
+#       target_enable_lto(mytarget general)
 #
 # It is however recommended to use it only for non debug builds the following way :
 #
-# 		target_enable_lto(mytarget optimized)
+#       target_enable_lto(mytarget optimized)
 #
 # WARNING for cmake versions older than 3.9 : 
 # This module will override CMAKE_AR CMAKE_RANLIB and CMAKE_NM by the gcc versions if found when building with gcc
@@ -215,6 +215,8 @@ macro(find_lto lang)
           check_ipo_supported(RESULT __IPO_SUPPORTED OUTPUT output)
 		  if(NOT __IPO_SUPPORTED)
 			message(WARNING "IPO is not supported: ${output}")
+          else()
+            message(STATUS "IPO is supported !")
 		  endif()
       endif()	  
 	  if(__IPO_SUPPORTED)
