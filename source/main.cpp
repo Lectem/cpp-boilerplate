@@ -5,11 +5,13 @@
 
 #include <fmt/format.h>
 
+// This should be in the headers
+
 /**
  * @brief A function that does nothing but generate documentation
  * @return The answer to life, the universe and everything
  */
-int foo() { return 42; }
+int foo();
 
 int main(int argc, char* argv[])
 {
@@ -19,3 +21,6 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
+
+// Implementation
+int foo() { return 42; }
