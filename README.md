@@ -1,6 +1,8 @@
 # C++/CMake modern boilerplate
 [![Travis build Status](https://travis-ci.org/Lectem/cpp-boilerplate.svg?branch=master)](https://travis-ci.org/Lectem/cpp-boilerplate)
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/63mnrl1am9plfc4f/branch/master?svg=true)](https://ci.appveyor.com/project/Lectem/boilerplate/branch/master)
+[![Pull requests](https://img.shields.io/github/issues-pr-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/pulls)
+[![Opened issues](https://img.shields.io/github/issues-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/issues)
 
 This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds.
 It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for people willing to learn it.
