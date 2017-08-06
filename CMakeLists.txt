@@ -34,7 +34,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 #### Project ######
 ###################
 
-project(BoilerPlateProject C CXX)
+project("CPP BoilerPlate" C CXX)
 
 # Check for LTO support (needs to be after project(...) )
 find_lto(CXX)
@@ -71,4 +71,22 @@ set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
 if(BP_BUILD_TESTS)
     enable_testing() # Must be in top CMakeLists.txt to be work with ctest
     add_subdirectory(tests)
+endif()
+
+#############
+## Doxygen ##
+#############
+
+if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER_EQUAL 3.9)
+	find_package(Doxygen
+		OPTIONAL_COMPONENTS dot mscgen dia
+	)
+	if(DOXYGEN_FOUND)
+		set(DOXYGEN_USE_MDFILE_AS_MAINPAGE README.md)
+		doxygen_add_docs(
+			doc
+			README.md source
+			COMMENT "Generate man pages"
+		)
+	endif()
 endif()

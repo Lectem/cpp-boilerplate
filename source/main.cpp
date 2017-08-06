@@ -1,27 +1,16 @@
+/** @file main.cpp
+ * Just a simple hello world using libfmt
+ */
+// The previous block is needed in every file for which you want to generate documentation
+
 #include <fmt/format.h>
 
-#if defined(_WIN32) && !defined(_WIN64)
-#pragma message("I am targeting 32 - bit Windows.")
-#endif
-
-#ifdef _WIN64
-#pragma message("I am targeting 64 - bit Windows.")
-#endif
-
-#ifdef __clang__
-#pragma message("I am Clang, version: %s\n")
-#endif
-
-#if defined(__clang__) && defined(__c2__)
-#pragma message("I am Clang / C2.")
-#endif
-
-#if defined(__clang__) && defined(__llvm__)
-#pragma message("I am Clang / LLVM.")
-#endif
-
-// Not tested: __EDG__, __GNUC__, etc.
-
+/**
+ * @brief A function that does nothing but generate documentation
+ * @param bar Any float value.
+ * @return The answer to life, the universe and everything
+ */
+int foo(float bar) { return 42; }
 
 int main(int argc, char* argv[])
 {
@@ -31,4 +20,3 @@ int main(int argc, char* argv[])
     }
     return 0;
 }
-
