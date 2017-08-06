@@ -7,10 +7,9 @@
 
 /**
  * @brief A function that does nothing but generate documentation
- * @param bar Any float value.
  * @return The answer to life, the universe and everything
  */
-int foo(float bar) { return 42; }
+int foo() { return 42; }
 
 int main(int argc, char* argv[])
 {

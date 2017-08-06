@@ -34,7 +34,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 #### Project ######
 ###################
 
-project("CPP BoilerPlate" C CXX)
+project("CPP-BoilerPlate" C CXX)
 
 # Check for LTO support (needs to be after project(...) )
 find_lto(CXX)

@@ -4,7 +4,7 @@
 .idea
 
 # CMake
-build/
+build*/
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
