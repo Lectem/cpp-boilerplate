@@ -20,7 +20,10 @@
 #
 #       target_enable_lto(mytarget optimized)
 #
-# WARNING for cmake versions older than 3.9 : 
+# Note : For CMake versions < 3.9, target_link_library is used in it's non plain version.
+#        You will need to specify PUBLIC/PRIVATE/INTERFACE to all your other target_link_library calls for the target
+#
+# WARNING for cmake versions older than 3.9 :
 # This module will override CMAKE_AR CMAKE_RANLIB and CMAKE_NM by the gcc versions if found when building with gcc
 
 
@@ -55,7 +58,7 @@ option(ENABLE_LTO "enable link time optimization" ON)
 
 macro(find_lto lang)
     if(ENABLE_LTO AND NOT LTO_${lang}_CHECKED)
-    
+
       #LTO support was added for clang/gcc in 3.9
       if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 3.9)
           message(STATUS "Checking for LTO Compatibility")
@@ -184,66 +187,66 @@ macro(find_lto lang)
       endif(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 3.9)
     endif(ENABLE_LTO AND NOT LTO_${lang}_CHECKED)
 
-    
-	if(ENABLE_LTO)
-	  #Special case for cmake older than 3.9, using a library for gcc/clang, but could setup the flags directly.
-	  #Taking advantage of the [debug,optimized] parameter of target_link_libraries
+
+    if(ENABLE_LTO)
+      #Special case for cmake older than 3.9, using a library for gcc/clang, but could setup the flags directly.
+      #Taking advantage of the [debug,optimized] parameter of target_link_libraries
       if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 3.9)
         if(LTO_${lang}_SUPPORT)
-			if(NOT TARGET __enable_lto_tgt)
-				add_library(__enable_lto_tgt INTERFACE)
-			endif()
+            if(NOT TARGET __enable_lto_tgt)
+                add_library(__enable_lto_tgt INTERFACE)
+            endif()
             target_compile_options(__enable_lto_tgt INTERFACE ${LTO_COMPILE_FLAGS})
             #this might not work for all platforms... in which case we'll have to set the link flags on the target directly
-			target_link_libraries(__enable_lto_tgt INTERFACE ${LTO_LINK_FLAGS} )
-			macro(target_enable_lto _target _build_configuration)
-				if(${_build_configuration} STREQUAL "optimized" OR ${_build_configuration} STREQUAL "debug" )
-					target_link_libraries(${_target} PRIVATE ${_build_configuration} __enable_lto_tgt)
-				else()
-					target_link_libraries(${_target} PRIVATE __enable_lto_tgt)
-				endif()
-			endmacro()
-		else()
-			#In old cmake versions, we can set INTERPROCEDURAL_OPTIMIZATION even if not supported by the compiler
-			#So if we didn't detect it, let cmake give it a try
-			set(__IPO_SUPPORTED TRUE)
+            target_link_libraries(__enable_lto_tgt INTERFACE ${LTO_LINK_FLAGS} )
+            macro(target_enable_lto _target _build_configuration)
+                if(${_build_configuration} STREQUAL "optimized" OR ${_build_configuration} STREQUAL "debug" )
+                    target_link_libraries(${_target} PRIVATE ${_build_configuration} __enable_lto_tgt)
+                else()
+                    target_link_libraries(${_target} PRIVATE __enable_lto_tgt)
+                endif()
+            endmacro()
+        else()
+            #In old cmake versions, we can set INTERPROCEDURAL_OPTIMIZATION even if not supported by the compiler
+            #So if we didn't detect it, let cmake give it a try
+            set(__IPO_SUPPORTED TRUE)
         endif()
-	  else()
+      else()
           cmake_policy(SET CMP0069 NEW)
           include(CheckIPOSupported)
           # Optional IPO. Do not use IPO if it's not supported by compiler.
           check_ipo_supported(RESULT __IPO_SUPPORTED OUTPUT output)
-		  if(NOT __IPO_SUPPORTED)
-			message(WARNING "IPO is not supported: ${output}")
+          if(NOT __IPO_SUPPORTED)
+            message(WARNING "IPO is not supported: ${output}")
           else()
             message(STATUS "IPO is supported !")
-		  endif()
-      endif()	  
-	  if(__IPO_SUPPORTED)
-		macro(target_enable_lto _target _build_configuration)
-			if(NOT ${_build_configuration} STREQUAL "debug" )
-				#enable for all configurations
-				set_target_properties(${_target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
-			endif()
-			if(${_build_configuration} STREQUAL "optimized" )
-				#blacklist debug configurations
-				set(__enable_debug_lto FALSE)
-			else()
-				#enable only for debug configurations
-				set(__enable_debug_lto TRUE)
-			endif()
-			get_property(DEBUG_CONFIGURATIONS GLOBAL PROPERTY DEBUG_CONFIGURATIONS)
-			if(NOT DEBUG_CONFIGURATIONS)
-				set(DEBUG_CONFIGURATIONS DEBUG) # This is what is done by CMAKE internally... since DEBUG_CONFIGURATIONS is empty by default
-			endif()
-			foreach(config IN LISTS DEBUG_CONFIGURATIONS)
-				set_target_properties(${_target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION_${config} ${__enable_debug_lto})
-			endforeach()
-		endmacro()
-	  endif()
-	endif()
-	if(NOT COMMAND target_enable_lto)
-		macro(target_enable_lto _target _build_configuration)
-		endmacro()
-	endif()
+          endif()
+      endif()
+      if(__IPO_SUPPORTED)
+        macro(target_enable_lto _target _build_configuration)
+            if(NOT ${_build_configuration} STREQUAL "debug" )
+                #enable for all configurations
+                set_target_properties(${_target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION TRUE)
+            endif()
+            if(${_build_configuration} STREQUAL "optimized" )
+                #blacklist debug configurations
+                set(__enable_debug_lto FALSE)
+            else()
+                #enable only for debug configurations
+                set(__enable_debug_lto TRUE)
+            endif()
+            get_property(DEBUG_CONFIGURATIONS GLOBAL PROPERTY DEBUG_CONFIGURATIONS)
+            if(NOT DEBUG_CONFIGURATIONS)
+                set(DEBUG_CONFIGURATIONS DEBUG) # This is what is done by CMAKE internally... since DEBUG_CONFIGURATIONS is empty by default
+            endif()
+            foreach(config IN LISTS DEBUG_CONFIGURATIONS)
+                set_target_properties(${_target} PROPERTIES INTERPROCEDURAL_OPTIMIZATION_${config} ${__enable_debug_lto})
+            endforeach()
+        endmacro()
+      endif()
+    endif()
+    if(NOT COMMAND target_enable_lto)
+        macro(target_enable_lto _target _build_configuration)
+        endmacro()
+    endif()
 endmacro()
