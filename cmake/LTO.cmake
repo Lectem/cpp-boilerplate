@@ -52,7 +52,7 @@
 # SOFTWARE.
 
 
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.1)
 
 option(ENABLE_LTO "enable link time optimization" ON)
 
@@ -61,7 +61,8 @@ macro(find_lto lang)
 
       #LTO support was added for clang/gcc in 3.9
       if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 3.9)
-          message(STATUS "Checking for LTO Compatibility")
+          cmake_policy(SET CMP0054 NEW)
+		  message(STATUS "Checking for LTO Compatibility")
           # Since GCC 4.9 we need to use gcc-ar / gcc-ranlib / gcc-nm
           if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
               if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_GCC_AR OR NOT CMAKE_GCC_RANLIB OR NOT CMAKE_GCC_NM)
