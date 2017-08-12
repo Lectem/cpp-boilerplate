@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.1)
 
+option(ENABLE_WARNINGS_SETTINGS "Allow target_set_warnings to add flags and defines. Set this to OFF if you want to provide your own warning parameters." ON)
+
 function(target_set_warnings)
 	if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "MSVC")
 	  set(WMSVC TRUE)
