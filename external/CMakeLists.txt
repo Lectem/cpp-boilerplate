@@ -21,4 +21,4 @@ target_include_directories(
 #Add new external (non-interface) targets to this list
 set_target_properties(fmt PROPERTIES FOLDER "external")
 
-set(BUILD_TESTING ${BUILD_TESTING} CACHE BOOL "Build tests (default variable for CTest)" FORCE) #Set it back to its past value
+set(BUILD_TESTING ${BUILD_TESTING_BCKP} CACHE BOOL "Build tests (default variable for CTest)" FORCE) #Set it back to its past value
