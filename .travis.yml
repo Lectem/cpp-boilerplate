@@ -14,7 +14,7 @@ matrix:
     - os: linux
       compiler: gcc
       addons: {apt: {packages: [g++-6] , sources: [ubuntu-toolchain-r-test]}}
-      env: BUILD_TYPE=Debug COMPILER_VER=6
+      env: BUILD_TYPE=Coverage COMPILER_VER=6
     - os: linux
       compiler: gcc
       addons: {apt: {packages: [g++-6] , sources: [ubuntu-toolchain-r-test]}}
@@ -36,6 +36,7 @@ cache:
 install:
   - if [[ "${COMPILER_VER}" != "" ]]; then export CXX=${CXX}-${COMPILER_VER}; fi
   - if [[ "${COMPILER_VER}" != "" ]]; then export CC=${CC}-${COMPILER_VER}; fi
+  - if [[ "${COMPILER_VER}" != "" ]]; then export GCOV=gcov-${COMPILER_VER}; fi
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       mkdir -p $HOME/.local
@@ -55,6 +56,17 @@ install:
     fi
 
 script:
-  - mkdir build && cd build
-  - cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
-  - make -j4
+  - |
+    if [[ "$BUILD_TYPE" == "Coverage" ]]; then
+      ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV
+    else
+      mkdir build && cd build
+      cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+      make -j4
+      make test
+    fi
+after_success:
+  - |
+    if [[ "$BUILD_TYPE" == "Coverage" ]]; then
+      bash <(curl -s https://codecov.io/bash) -X gcov || echo "Codecov did not collect coverage reports"
+    fi
