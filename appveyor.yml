@@ -48,7 +48,6 @@ build:
   
 test_script:
   - cd build
-  # -E excludes tests. Since we know failtest should fail, don't run it
-  - ctest -C %configuration% -E failtest --output-on-failure
+  - ctest -C %configuration% .
   - cd ..
 
