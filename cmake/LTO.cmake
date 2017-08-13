@@ -218,7 +218,7 @@ macro(find_lto lang)
           # Optional IPO. Do not use IPO if it's not supported by compiler.
           check_ipo_supported(RESULT __IPO_SUPPORTED OUTPUT output)
           if(NOT __IPO_SUPPORTED)
-            message(WARNING "IPO is not supported: ${output}")
+            message(status "IPO is not supported or broken.")
           else()
             message(STATUS "IPO is supported !")
           endif()
