@@ -141,7 +141,7 @@ endif()
 ## Doxygen ##
 #############
 
-if(${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER_EQUAL 3.9)
+if(BP_USE_DOXYGEN AND ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER_EQUAL 3.9)
     find_package(Doxygen
         OPTIONAL_COMPONENTS dot mscgen dia
     )
