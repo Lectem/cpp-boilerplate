@@ -56,12 +56,6 @@ cmake_dependent_option(BP_BUILD_TESTS
 # External dependencies
 add_subdirectory(external EXCLUDE_FROM_ALL)
 
-# Usually add_definitions should be avoided at all cost, but /DNOMINMAX is a must on windows.
-# This should really just be in a platform specific CMake script
-if(MSVC)
-    add_definitions(/DNOMINMAX)
-endif()
-
 # It is always easier to navigate in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
