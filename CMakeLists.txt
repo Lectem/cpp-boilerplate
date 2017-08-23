@@ -14,7 +14,7 @@
 #
 cmake_minimum_required(VERSION 3.8.2)
 
-if("${CMAKE_SOURCE_DIR}" STREQUAL "${CMAKE_BINARY_DIR}")
+if(CMAKE_SOURCE_DIR STREQUAL CMAKE_BINARY_DIR)
     message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
@@ -63,7 +63,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 ##  Project  ##
 ###############
 
-project("CPP-BoilerPlate" C CXX)
+
 
 # Check for LTO support (needs to be after project(...) )
 find_lto(CXX)
@@ -141,7 +141,7 @@ endif()
 ## Doxygen ##
 #############
 
-if(BP_USE_DOXYGEN AND ${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_GREATER_EQUAL 3.9)
+if(BP_USE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
     find_package(Doxygen
         OPTIONAL_COMPONENTS dot mscgen dia
     )
