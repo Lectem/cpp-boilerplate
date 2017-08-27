@@ -1,14 +1,9 @@
 #
 # CMake module that detects if the compilers support coverage
 #
-# If this is the case, the build type Coverage is set up for coverage, and COVERAGE_SUPPORTED is set to true
-# Typical usage is the following :
-#
-#    include(Coverage)
-#    if(COVERAGE_SUPPORTED AND CMAKE_CONFIGURATION_TYPES)
-#       # Modify this only if using a multi-config generator, some modules rely on this variable to detect those generators.
-#		list(APPEND CMAKE_CONFIGURATION_TYPES Coverage) 
-#    endif()
+# If this is the case, the build type Coverage is set up for coverage, and COVERAGE_SUPPORTED is set to true.
+# By default the Coverage build type is added to CMAKE_CONFIGURATION_TYPES on multi-config generators.
+# This can be controlled through the COVERAGE_IN_CONFIGURATION_TYPES option.
 #
 
 # License:
@@ -35,13 +30,13 @@
 # CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+include(CMakeDependentOption)
+
 set(COVERAGE_COMPILER_FLAGS  "-g -O0 --coverage" CACHE INTERNAL "")
 set(COVERAGE_LINKER_FLAGS    "--coverage"        CACHE INTERNAL "")
 
-
 get_property(ENABLED_LANGUAGES GLOBAL PROPERTY ENABLED_LANGUAGES)
 
-#message(STATUS "Checking coverage support for ${ENABLED_LANGUAGES}")
 foreach(_LANG IN LISTS ENABLED_LANGUAGES)
 	include(Check${_LANG}CompilerFlag OPTIONAL)
 	set(CMAKE_REQUIRED_LIBRARIES ${COVERAGE_LINKER_FLAGS}) # This is ugly, but better than rewriting/fixing check_<LANG>_compiler_flag
@@ -78,6 +73,38 @@ if(COVERAGE_SUPPORTED)
 	)
 	mark_as_advanced(
 		CMAKE_EXE_LINKER_FLAGS_COVERAGE
-		CMAKE_SHARED_LINKER_FLAGS_COVERAGE 
+		CMAKE_SHARED_LINKER_FLAGS_COVERAGE
 	)
+endif()
+
+
+cmake_dependent_option(COVERAGE_IN_CONFIGURATION_TYPES
+    "Should the Coverage target be in the CMAKE_CONFIGURATION_TYPES list if supported ?" ON
+    "CMAKE_CONFIGURATION_TYPES;COVERAGE_SUPPORTED" OFF # No need for this option if we are not using a multi-config generator
+)
+
+if(COVERAGE_IN_CONFIGURATION_TYPES)
+	# Modify this only if using a multi-config generator, some modules rely on this variable to detect those generators.
+	if(CMAKE_CONFIGURATION_TYPES AND COVERAGE_SUPPORTED)
+		list(APPEND CMAKE_CONFIGURATION_TYPES Coverage)
+		list(REMOVE_DUPLICATES CMAKE_CONFIGURATION_TYPES)
+		set(CMAKE_CONFIGURATION_TYPES
+			"${CMAKE_CONFIGURATION_TYPES}"
+			CACHE STRING
+			"Semicolon separated list of supported configuration types, only supports ${CMAKE_CONFIGURATION_TYPES} anything else will be ignored."
+			FORCE
+		)
+	endif()
+else()
+	if(Coverage IN_LIST CMAKE_CONFIGURATION_TYPES)
+		message(STATUS "Removing Coverage configuration type (COVERAGE_IN_CONFIGURATION_TYPES is OFF)")
+		list(REMOVE_ITEM CMAKE_CONFIGURATION_TYPES Coverage)
+		list(REMOVE_DUPLICATES CMAKE_CONFIGURATION_TYPES)
+		set(CMAKE_CONFIGURATION_TYPES
+			"${CMAKE_CONFIGURATION_TYPES}"
+			CACHE STRING
+			"Semicolon separated list of supported configuration types, only supports ${CMAKE_CONFIGURATION_TYPES} anything else will be ignored."
+			FORCE
+		)
+	endif()
 endif()
