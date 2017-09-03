@@ -10,7 +10,7 @@ TEST_CASE("testing the factorial function") {
     CHECK(factorial(3) == 6);
     CHECK(factorial(10) == 3628800);
 }
-
+#if __GNUC__ // Doesn't crash for gcc/clang, but will with msvc
 TEST_CASE("Trigger ASan")
 {
     int *array = new int[100];
@@ -18,3 +18,4 @@ TEST_CASE("Trigger ASan")
     array[0] = 0; //boom
     REQUIRE(false);
 }
+#endif
