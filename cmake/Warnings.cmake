@@ -46,7 +46,7 @@ function(target_set_warnings)
 		#list(APPEND WarningFlags "/wd4365") #signed/unsigned mismatch
 		#list(APPEND WarningFlags "/wd4668") # is not defined as a preprocessor macro, replacing with '0' for
 	  elseif(WCLANG)
-		list(APPEND WarningFlags -Wno-unknown-warning-option -Wno-padded -Wno-undef -Wno-reserved-id-macro)
+		list(APPEND WarningFlags -Wno-unknown-warning-option -Wno-padded -Wno-undef -Wno-reserved-id-macro -fcomment-block-commands=test,retval)
 		if(NOT CMAKE_CXX_STANDARD EQUAL 98)
 			list(APPEND WarningFlags -Wno-c++98-compat -Wno-c++98-compat-pedantic)
 		endif()
