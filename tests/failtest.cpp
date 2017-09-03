@@ -10,3 +10,11 @@ TEST_CASE("testing the factorial function") {
     CHECK(factorial(3) == 6);
     CHECK(factorial(10) == 3628800);
 }
+
+TEST_CASE("Trigger ASan")
+{
+    int *array = new int[100];
+    delete [] array;
+    array[0] = 0; //boom
+    REQUIRE(false);
+}

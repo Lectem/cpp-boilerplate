@@ -13,21 +13,44 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      addons: {apt: {packages: [g++-6] , sources: [ubuntu-toolchain-r-test]}}
+      addons: &gcc6 {apt: {packages: [g++-6] , sources: [ubuntu-toolchain-r-test]}}
       env: BUILD_TYPE=Coverage COMPILER_VER=6
     - os: linux
       compiler: gcc
-      addons: {apt: {packages: [g++-6] , sources: [ubuntu-toolchain-r-test]}}
+      addons: *gcc6
       env: BUILD_TYPE=Release COMPILER_VER=6
+    - os: linux # Use 3.8 since 3.9 is broken on trusty when using ASAN
+      compiler: clang
+      addons: &clang38 {apt: {packages: [clang-3.8,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test]}}
+      env: BUILD_TYPE=Debug COMPILER_VER=3.8 USE_ASAN=1
     - os: linux
       compiler: clang
-      addons: {apt: {packages: [clang-3.9,llvm-3.9-dev,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.9]}}
+      addons: *clang38
+      env: BUILD_TYPE=Debug COMPILER_VER=3.8 USE_UBSAN=1
+    - os: linux
+      compiler: clang
+      addons: &clang39 {apt: {packages: [clang-3.9,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-trusty-3.9]}}
       env: BUILD_TYPE=Debug COMPILER_VER=3.9
     - os: linux
       compiler: clang
-      addons: {apt: {packages: [clang-3.9,llvm-3.9-dev,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-precise-3.9]}}
+      addons: *clang39
       env: BUILD_TYPE=Release COMPILER_VER=3.9
-
+    - os: linux
+      compiler: clang
+      addons: &clang4 {apt: {packages: [clang-4.0,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-trusty-4.0]}}
+      env: BUILD_TYPE=Debug COMPILER_VER=4.0 USE_ASAN=1
+    - os: linux
+      compiler: clang
+      addons: *clang4
+      env: BUILD_TYPE=Release COMPILER_VER=4.0 USE_UBSAN=1
+    - os: linux
+      compiler: clang
+      addons: &clang5 {apt: {packages: [clang-5.0,libstdc++-6-dev] , sources: [ubuntu-toolchain-r-test,llvm-toolchain-trusty-5.0]}}
+      env: BUILD_TYPE=Debug COMPILER_VER=5.0 USE_ASAN=1
+    - os: linux
+      compiler: clang
+      addons: *clang5
+      env: BUILD_TYPE=Release COMPILER_VER=5.0 USE_UBSAN=1
 
 cache:
   directories:
@@ -37,6 +60,8 @@ install:
   - if [[ "${COMPILER_VER}" != "" ]]; then export CXX=${CXX}-${COMPILER_VER}; fi
   - if [[ "${COMPILER_VER}" != "" ]]; then export CC=${CC}-${COMPILER_VER}; fi
   - if [[ "${COMPILER_VER}" != "" ]]; then export GCOV=gcov-${COMPILER_VER}; fi
+  - if [[ "${USE_ASAN}" == "1" ]]; then export CXXFLAGS="-fsanitize=address -fno-omit-frame-pointer"; fi
+  - if [[ "${USE_UBSAN}" == "1" ]]; then export CXXFLAGS="-fsanitize=undefined -fno-omit-frame-pointer"; fi
   - |
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       mkdir -p $HOME/.local
@@ -56,6 +81,8 @@ install:
     fi
 
 script:
+  - ${CXX} --version
+  - echo CXXFLAGS=${CXXFLAGS}
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
       ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV
