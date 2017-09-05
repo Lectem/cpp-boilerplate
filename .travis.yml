@@ -87,9 +87,9 @@ script:
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
       ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV
     else
-      mkdir build && cd build
-      cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
-      make -j4
+      mkdir build && cd build && \
+      cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .. && \
+      make -j4 && \
       ctest -VV .
     fi
 after_success:
