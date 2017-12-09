@@ -35,7 +35,7 @@ include(CMakeDependentOption)# This is a really useful scripts that creates opti
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
 include(LTO)
 include(Warnings)
-include(RunFixupBundle)
+include(CopyDllsForDebug)
 include(Coverage)
 
 ###############
@@ -93,7 +93,7 @@ target_compile_features(BoilerPlate PRIVATE cxx_std_14)
 # CMake scripts extensions
 target_set_warnings(BoilerPlate ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Helper that can set default warning flags for you
 target_enable_lto(BoilerPlate optimized) #enable lto if available for non-debug configurations
-run_fixup(BoilerPlate "" "") # Copy dependencies next to the executable (DLLs for example)
+copy_dlls_for_debug(BoilerPlate "" "") # Copy dependencies next to the executable (DLLs for example)
 
 # Setup our project as the startup project for Visual so that people don't need to do it manually
 set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
