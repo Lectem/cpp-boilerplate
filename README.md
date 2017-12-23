@@ -44,16 +44,21 @@ The CI providers used and that might need some setup :
 
 ## FAQ
 
-Q: Why can't I link some new libraries I put inside the external folder ?
-A: By default targets are not at the GLOBAL scope, which means your CMakelists.txt might not see it.
+__Q__: Why can't I link some new libraries I put inside the external folder ?
+
+__A__: By default targets are not at the GLOBAL scope, which means your CMakelists.txt might not see it.
 In this case you can either add an alias/imported library or use find_package/library as you would if the library was not in your buildtree.
 
-Q: Should I always put my dependencies in the folder external
-A: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time.
+
+__Q__: Should I always put my dependencies in the folder external
+
+__A__: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time.
 For those, you can use a package manager such as [Hunter](https://github.com/ruslo/hunter) or simply rely on find_package/library.
 
-Q: I don't understand why you made the choice of XXXXXX here ?
-A: Open a new issue !
+
+__Q__: I don't understand why you made the choice of XXXXXX here ?
+
+__A__: Open a new issue !
 
 ## External dependencies (using submodules)
 
