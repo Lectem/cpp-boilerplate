@@ -36,7 +36,7 @@ The CI providers used and that might need some setup :
 
  * Scripts lying in the cmake/ folder can be copy/pasted for use in any CMake project
  * Uses c++14
- * RunFixupBundle.cmake script : A small wrapper around fixup_bundle
+ * CopyDllsForDebug.cmake script : A small wrapper around fixup_bundle to copy DLLs to the output directory on windows
  * LTO.cmake script : Easier link time optimization configuration (should work on all CMake 3.x versions) as it used to be painful to setup.
  * Warnings.cmake script : A wrapper around common warning settings
  * Basic unit-testing using [doctest](https://github.com/onqtam/doctest)
