@@ -42,6 +42,19 @@ The CI providers used and that might need some setup :
  * Basic unit-testing using [doctest](https://github.com/onqtam/doctest)
  * Coverage.cmake : Test coverage script to add a 'Coverage' build type to CMake
 
+## FAQ
+
+Q: Why can't I link some new libraries I put inside the external folder ?
+A: By default targets are not at the GLOBAL scope, which means your CMakelists.txt might not see it.
+In this case you can either add an alias/imported library or use find_package/library as you would if the library was not in your buildtree.
+
+Q: Should I always put my dependencies in the folder external
+A: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time.
+For those, you can use a package manager such as [Hunter](https://github.com/ruslo/hunter) or simply rely on find_package/library.
+
+Q: I don't understand why you made the choice of XXXXXX here ?
+A: Open a new issue !
+
 ## External dependencies (using submodules)
 
 Those dependencies can be easily removed by changing the external/CMakelists.txt and cleaning main.cpp.
