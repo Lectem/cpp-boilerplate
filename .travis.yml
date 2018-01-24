@@ -85,7 +85,7 @@ script:
   - echo CXXFLAGS=${CXXFLAGS}
   - |
     if [[ "$BUILD_TYPE" == "Coverage" ]]; then
-      ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV
+      ctest -S cmake/CI.CTestScript.cmake --output-on-failure -VV -DCTEST_SITE=Travis -DCTEST_BUILD_NAME="${TRAVIS_OS_NAME}-$BUILD_TYPE"
     else
       mkdir build && cd build && \
       cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE .. && \
