@@ -2,6 +2,7 @@
 
 .vs
 .idea
+CMakeSettings.json
 
 # CMake
 build*/
