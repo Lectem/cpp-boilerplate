@@ -5,6 +5,7 @@
 [![CDash dashboard](https://img.shields.io/badge/CDash-Access-blue.svg)](http://my.cdash.org/index.php?project=cpp-boilerplate)
 [![Pull requests](https://img.shields.io/github/issues-pr-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/pulls)
 [![Opened issues](https://img.shields.io/github/issues-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/issues)
+[![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://lectem.github.io/cpp-boilerplate)
 
 This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds.
 It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt !
@@ -41,8 +42,9 @@ The CI providers used and that might need some setup :
  * Warnings.cmake script : A wrapper around common warning settings
  * Basic unit-testing using [doctest](https://github.com/onqtam/doctest)
  * Coverage.cmake : Test coverage script to add a 'Coverage' build type to CMake
+ * Generating the documentation through TravisCI requires that you setup a Github Token, see https://docs.travis-ci.com/user/deployment/pages/ .
 
-## FAQ
+ ## FAQ
 
 __Q__: Why can't I link some new libraries I put inside the external folder ?
 
