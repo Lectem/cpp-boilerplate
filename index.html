@@ -76,7 +76,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="title">CPP-BoilerPlate Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://travis-ci.org/Lectem/cpp-boilerplate">![Travis build Status](https://travis-ci.org/Lectem/cpp-boilerplate.svg?branch=master)</a> <a href="https://ci.appveyor.com/project/Lectem/boilerplate/branch/master">![Appveyor build status](https://ci.appveyor.com/api/projects/status/63mnrl1am9plfc4f/branch/master?svg=true)</a> <a href="https://codecov.io/gh/Lectem/cpp-boilerplate">![Coverage](https://codecov.io/gh/Lectem/cpp-boilerplate/branch/master/graph/badge.svg)</a> <a href="http://my.cdash.org/index.php?project=cpp-boilerplate">![CDash dashboard](https://img.shields.io/badge/CDash-Access-blue.svg)</a> <a href="https://github.com/Lectem/cpp-boilerplate/pulls">![Pull requests](https://img.shields.io/github/issues-pr-raw/Lectem/cpp-boilerplate.svg)</a> <a href="https://github.com/Lectem/cpp-boilerplate/issues">![Opened issues](https://img.shields.io/github/issues-raw/Lectem/cpp-boilerplate.svg)</a> <a href="https://lectem.github.io/cpp-boilerplate">![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)</a></p>
+<div class="textblock"><p><a href="https://travis-ci.org/Lectem/cpp-boilerplate">![Travis build Status](https://travis-ci.org/Lectem/cpp-boilerplate.svg?branch=master)</a> <a href="https://ci.appveyor.com/project/Lectem/boilerplate/branch/master">![Appveyor build status](https://ci.appveyor.com/api/projects/status/63mnrl1am9plfc4f/branch/master?svg=true)</a> <a href="https://codecov.io/gh/Lectem/cpp-boilerplate">![Coverage](https://codecov.io/gh/Lectem/cpp-boilerplate/branch/master/graph/badge.svg)</a> <a href="https://lgtm.com/projects/g/Lectem/cpp-boilerplate/context:cpp">![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Lectem/cpp-boilerplate.svg?logo=lgtm&amp;logoWidth=18)</a> <a href="http://my.cdash.org/index.php?project=cpp-boilerplate">![CDash dashboard](https://img.shields.io/badge/CDash-Access-blue.svg)</a></p>
+<p><a href="https://github.com/Lectem/cpp-boilerplate/pulls">![Pull requests](https://img.shields.io/github/issues-pr-raw/Lectem/cpp-boilerplate.svg)</a> <a href="https://github.com/Lectem/cpp-boilerplate/issues">![Opened issues](https://img.shields.io/github/issues-raw/Lectem/cpp-boilerplate.svg)</a> <a href="https://lectem.github.io/cpp-boilerplate">![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)</a></p>
 <p>This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds. It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt ! If you disagree with some pieces of advice given here, please discuss it with me by opening a Github Issue ! Enhancements are always welcome.</p>
 <h2>Usage</h2>
 <p>If you want to bootstrap a new project you only need to :</p>
@@ -111,6 +112,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>Basic unit-testing using <a href="https://github.com/onqtam/doctest">doctest</a></li>
 <li>Coverage.cmake : Test coverage script to add a 'Coverage' build type to CMake</li>
 <li>Generating the documentation through TravisCI requires that you setup a Github Token, see <a href="https://docs.travis-ci.com/user/deployment/pages/">https://docs.travis-ci.com/user/deployment/pages/</a> .</li>
+<li>The lgtm.com website already knows about cmake and can build most of the projects without any special configuration. A sample configuration is in this project to show how to tag files and disable unneeded warnings. The external folder is automatically recognized and files are tagged as library.</li>
 </ul>
 <h2>FAQ</h2>
 <p><b>Q</b>: Why can't I link some new libraries I put inside the external folder ?</p>
@@ -129,7 +131,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Sep 5 2018 09:59:56 for CPP-BoilerPlate by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Sep 22 2018 15:20:09 for CPP-BoilerPlate by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
