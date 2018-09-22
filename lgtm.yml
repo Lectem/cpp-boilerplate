@@ -1,0 +1,11 @@
+--- # Very basic configuration for lgtm.com
+path_classifiers:
+  docs:
+    - README.md
+    - LICENSE
+  generated:
+    - "**/*.bin.h" #example of generated file
+  test:
+    - "tests/*.cpp" #our tests are in the tests/ folder
+queries:
+  - exclude: cpp/ambiguously-signed-bit-field # This query is only valuable until c++14
