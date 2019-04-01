@@ -20,6 +20,7 @@ target_include_directories(
     INTERFACE
     doctest/doctest # note : will expose the parts/ folder...
 )
+target_compile_features(doctest INTERFACE cxx_std_11)
 
 #Add new external (non-interface) targets to this list
 set_target_properties(fmt PROPERTIES FOLDER "external")
