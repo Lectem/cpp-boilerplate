@@ -113,7 +113,7 @@ target_include_directories(bp_foo
 )
 target_link_libraries(bp_foo
     PRIVATE # fmt is only needed to build, not to use this library
-        fmt
+        fmt::fmt # Use the namespaced version to make sure we have the target and not the static lib only
 )
 # Give a 'scoped' name to libraries targets, as it can't be mistaken with system libraries
 add_library(bp::foo ALIAS bp_foo)
