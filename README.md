@@ -51,15 +51,25 @@ The CI providers used and that might need some setup :
 
     ## FAQ
 
+**Q**: I'm new to this CMake stuff, where do I start ?
+
+**A**: I would suggest reading [CGold](https://cgold.readthedocs.io) which covers this way better than I could. 
+
+___
+
 **Q**: Why can't I link some new libraries I put inside the external folder ?
 
 **A**: By default targets are not at the GLOBAL scope, which means your CMakelists.txt might not see it.
 In this case you can either add an alias/imported library or use find_package/library as you would if the library was not in your buildtree.
 
+___
+
 **Q**: Should I always put my dependencies in the folder external
 
 **A**: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time.
 For those, you can use a package manager such as [Hunter](https://github.com/ruslo/hunter) or simply rely on find_package/library.
+
+___
 
 **Q**: I don't understand why you made the choice of XXXXXX here ?
 
