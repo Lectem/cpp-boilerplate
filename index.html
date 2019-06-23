@@ -115,10 +115,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <li>The lgtm.com website already knows about cmake and can build most of the projects without any special configuration. A sample configuration is in this project to show how to tag files and disable unneeded warnings. The external folder is automatically recognized and files are tagged as library.</li>
 </ul>
 <h2>FAQ</h2>
+<p><b>Q</b>: I'm new to this CMake stuff, where do I start ?</p>
+<p><b>A</b>: I would suggest reading <a href="https://cgold.readthedocs.io">CGold</a> which covers this way better than I could.</p>
+<hr/>
 <p><b>Q</b>: Why can't I link some new libraries I put inside the external folder ?</p>
 <p><b>A</b>: By default targets are not at the GLOBAL scope, which means your CMakelists.txt might not see it. In this case you can either add an alias/imported library or use find_package/library as you would if the library was not in your buildtree.</p>
+<hr/>
 <p><b>Q</b>: Should I always put my dependencies in the folder external</p>
 <p><b>A</b>: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time. For those, you can use a package manager such as <a href="https://github.com/ruslo/hunter">Hunter</a> or simply rely on find_package/library.</p>
+<hr/>
 <p><b>Q</b>: I don't understand why you made the choice of XXXXXX here ?</p>
 <p><b>A</b>: Open a new issue !</p>
 <h2>External dependencies (using submodules)</h2>
@@ -131,7 +136,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Jun 23 2019 09:06:41 for CPP-BoilerPlate by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jun 23 2019 09:25:37 for CPP-BoilerPlate by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.6
 </small></address>
