@@ -20,7 +20,7 @@ If you disagree with some pieces of advice given here, please discuss it with me
 If you want to bootstrap a new project you only need to :
 
 -   If you don't already have your git repository setup
-    -   Simply copy/paste the folder (without the .git folder) and run the .bat file (renaming to .sh should work for linux). This will create an initial git commit and add the _required_ submodules.
+    -   Simply copy/paste the folder (without the .git folder) and run the createBoilerPlate.sh file. This will create an initial git commit and add the _required_ submodules.
 -   Hack CMakeLists.txt and CTestConfig.cmake to change the project name
 -   Ready to go !
 
