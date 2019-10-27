@@ -59,6 +59,13 @@ add_subdirectory(external EXCLUDE_FROM_ALL)
 # It is always easier to navigate in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Whe building a shared library, you do not want to export all symbols by default
+# gcc (and hence clang) are wrong about this.
+#
+# For more information, see https://gcc.gnu.org/wiki/Visibility and https://www.youtube.com/embed/m0DwB4OvDXk
+set(CMAKE_CXX_VISIBILITY_PRESET hidden)
+set(CMAKE_VISIBILITY_INLINES_HIDDEN 1)
+
 ###############
 ##  Project  ##
 ###############
