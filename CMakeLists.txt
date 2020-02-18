@@ -48,6 +48,8 @@ include(Coverage)
 
 option(BP_USE_DOXYGEN "Add a doxygen target to generate the documentation" ON)
 
+option(BP_USE_ADDITIONAL_SOURCEFILE "Use the additional source file" ON)
+
 # Use your own option for tests, in case people use your library through add_subdirectory
 cmake_dependent_option(BP_BUILD_TESTS
     "Enable ${PROJECT_NAME} project tests targets" ON # By default we want tests if CTest is enabled
@@ -93,6 +95,19 @@ target_link_libraries(BoilerPlate
         #debug DEBUGLIBS
         #optimized RELEASELIBS
 )
+
+# If you need platform specific files to be compiled and do not want to add a new target for this,
+# you can use target_sources instead. Note that configuration-dependent sources are not supported yet (see https://gitlab.kitware.com/cmake/cmake/issues/18233)
+target_sources(BoilerPlate
+    PRIVATE
+      $<$<PLATFORM_ID:Windows>:source/windows-only.cpp> # Use of generator expressions https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html
+)
+if(BP_USE_ADDITIONAL_SOURCEFILE)
+    target_sources(BoilerPlate PRIVATE source/additional-sourcefile.cpp)
+    # You can add defines if needed. PRIVATE means it will only be defined for this target. (see transitive usage)
+    target_compile_definitions(BoilerPlate PRIVATE HAS_ADDITIONAL_SOURCEFILE)
+endif()
+
 
 # Require c++14, this is better than setting CMAKE_CXX_STANDARD since it won't pollute other targets
 # note : cxx_std_* features were added in CMake 3.8.2
