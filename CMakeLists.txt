@@ -50,7 +50,7 @@ option(BP_USE_DOXYGEN "Add a doxygen target to generate the documentation" ON)
 
 # Use your own option for tests, in case people use your library through add_subdirectory
 cmake_dependent_option(BP_BUILD_TESTS
-    "Enable Boilerplate project tests targets" ON # By default we want tests if CTest is enabled
+    "Enable ${PROJECT_NAME} project tests targets" ON # By default we want tests if CTest is enabled
     "BUILD_TESTING" OFF # Stay coherent with CTest variables
 )
 
