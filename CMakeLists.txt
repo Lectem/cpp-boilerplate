@@ -80,10 +80,10 @@ find_lto(CXX)
 #  BoilerPlate executable  #
 #==========================#
 
-set(BP_SOURCE_FILES source/main.cpp )   # Always list the files explicitly
-set(BP_INCLUDE_FILES )                  # In this case we don't have headers, but always list them so that they appear in the IDE
+# Always list the source files explicitly, including headers so that they are listed in the IDE
+# If you need to use files based on a variable value, use target_sources
+add_executable(BoilerPlate source/main.cpp)
 
-add_executable(BoilerPlate ${BP_SOURCE_FILES} ${BP_INCLUDE_FILES})
 target_link_libraries(BoilerPlate
     #PUBLIC # Useful for libraries, see https://cmake.org/cmake/help/latest/manual/cmake-buildsystem.7.html for more details about transitive usage requirements.
         #libraries/targets to link when linking this library
@@ -111,13 +111,18 @@ set_directory_properties(PROPERTIES VS_STARTUP_PROJECT BoilerPlate)
 #===============#
 
 # Usually libraries are listed before executables, but in this case we only use it for the tests
-set(FOO_SOURCE_FILES source/foo.cpp )
-set(FOO_INCLUDE_FILES source/include/foo.h)
+# Note that we use both the include and source folders for headers, based on wether they are part of the public API or not.
+# For more information about this rationale, see https://github.com/vector-of-bool/pitchfork
+add_library(bp_foo
+    source/foo.cpp
+    source/foo-impl.h
+    include/foo.h
+)
 
-add_library(bp_foo ${FOO_SOURCE_FILES} ${FOO_INCLUDE_FILES} )
+# Since we put the public interface headers in the include directory, we need to tell the compiler so that we can #include <file>.
 target_include_directories(bp_foo
     PUBLIC # The folder must be used in the include path for any target using this library
-        source/include
+	    include/
 )
 target_link_libraries(bp_foo
     PRIVATE # fmt is only needed to build, not to use this library
