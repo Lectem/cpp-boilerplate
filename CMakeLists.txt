@@ -124,11 +124,13 @@ target_include_directories(bp_foo
     PUBLIC # The folder must be used in the include path for any target using this library
 	    include/
 )
+
+# We tell CMake what are the target dependencies
 target_link_libraries(bp_foo
     PRIVATE # fmt is only needed to build, not to use this library
-        fmt::fmt # Use the namespaced version to make sure we have the target and not the static lib only
+        fmt::fmt # Use the namespaced version to make sure we have the target and not the static lib only (which doesn't have transitive properties)
 )
-# Give a 'scoped' name to libraries targets, as it can't be mistaken with system libraries
+# Give a 'namespaced' name to libraries targets, as it can't be mistaken with system libraries
 add_library(bp::foo ALIAS bp_foo)
 
 #===========#
