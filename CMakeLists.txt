@@ -32,7 +32,8 @@ include(CMakeDependentOption)# This is a really useful scripts that creates opti
 
 # Custom modules and scripts
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_LIST_DIR}/cmake")
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake") # Make our cmake scripts available
+
 include(LTO)
 include(Warnings)
 include(CopyDllsForDebug)
