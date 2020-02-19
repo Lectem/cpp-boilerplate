@@ -12,8 +12,9 @@
 [![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://lectem.github.io/cpp-boilerplate)
 
 This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds.
-It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt !
-If you disagree with some pieces of advice given here, please discuss it with me by opening a Github Issue ! Enhancements are always welcome.
+It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt!
+Everything will not necessarily be useful for new projects, but serves as a learning document where most of the CMake features you will need should be showcased.
+If you disagree with some pieces of advice given here, please discuss it with me by opening a Github Issue! Enhancements are always welcome.
 
 ## Usage
 
@@ -21,7 +22,7 @@ If you want to bootstrap a new project you only need to :
 
 -   If you don't already have your git repository setup
     -   Simply copy/paste the folder (without the .git folder) and run the createBoilerPlate.sh file. This will create an initial git commit and add the _required_ submodules.
--   Hack CMakeLists.txt and CTestConfig.cmake to change the project name
+-   Hack CMakeLists.txt and CTestConfig.cmake to change the project name, remove unnecessary parts/comments.
 -   Ready to go !
 
 The CI providers used and that might need some setup :
