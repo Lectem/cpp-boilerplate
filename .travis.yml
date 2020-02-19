@@ -1,4 +1,4 @@
-dist: trusty
+dist: bionic
 sudo: false
 language: cpp
 
@@ -68,7 +68,7 @@ install:
     if [[ "${TRAVIS_OS_NAME}" == "linux" ]]; then
       mkdir -p $HOME/.local
 
-      CMAKE_URL="http://cmake.org/files/v3.9/cmake-3.9.0-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://github.com/Kitware/CMake/releases/download/v3.16.4/cmake-3.16.4.tar.gz"
       if [ ! -e $HOME/.local/bin/cmake ]; then
           echo "CMake not found in the cache, get and extract it..."
           travis_retry curl -L ${CMAKE_URL} \
