@@ -11,9 +11,12 @@
 [![Opened issues](https://img.shields.io/github/issues-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/issues)
 [![Documentation](https://img.shields.io/badge/Documentation-latest-blue.svg)](https://lectem.github.io/cpp-boilerplate)
 
-This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds.  
-It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt!  
-Everything will not necessarily be useful for new projects, but serves as a learning document where most of the CMake features you will need should be showcased.  
+This is a template for new projects, gives a good CMake base and a few dependencies you most likely want in your project. It also set ups some basic CI builds.
+
+It uses "modern" CMake, ie 3.x paradigms, and should be a good starting point for both people willing to learn it and those that want to update/upgrade their CMakeLists.txt!
+
+Everything will not necessarily be useful for new projects, but serves as a learning document where most of the CMake features you will need should be showcased.
+
 If you disagree with some pieces of advice given here, please discuss it with me by opening a Github Issue! Enhancements are always welcome.  
 
 ## Usage
