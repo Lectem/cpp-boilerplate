@@ -151,7 +151,7 @@ target_include_directories(bp_foo
 # The following properties are useful when you want to have an 'install' target
 set_target_properties(${PROJECT_NAME} 
     PROPERTIES 
-        PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/include/foo.h # Headers listed here will automatically be copied when installing
+        PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/include/foo.h # Headers listed here will automatically be copied when installing. Note that directories hierarchy is not preserved.
         DEBUG_POSTFIX d # We had a postfix so that we can install debug and release libraries side by side (Windows way)
 )
 
@@ -262,6 +262,8 @@ install(
 
 
 # So far we only installed the exported targets, now install the package config files.
+# If you do not list headers in the PUBLIC_HEADER property, you will need to copy them using `install(FILES)` or `install(DIRECTORY)` too.
+# In that case, you can use CMAKE_INSTALL_INCLUDEDIR as the base destination path.
 install(FILES 
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake 
