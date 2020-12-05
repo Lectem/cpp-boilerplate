@@ -2,7 +2,7 @@ name: CMake
 
 on:
   push:
-    branches: [ $default-branch ]
+    # Always trigger CI on push
   pull_request:
     branches: [ $default-branch ]
 
