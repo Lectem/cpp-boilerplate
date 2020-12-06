@@ -56,6 +56,7 @@ include(Coverage)
 
 option(${PROJECT_NAME}_USE_DOXYGEN "Add a doxygen target to generate the documentation" ON)
 option(${PROJECT_NAME}_USE_ADDITIONAL_SOURCEFILE "Use the additional source file" ON)
+option(${PROJECT_NAME}_INSTALL "Should ${PROJECT_NAME} be added to the install list? Useful if included using add_subdirectory." ON)
 
 # Use your own option for tests, in case people use your library through add_subdirectory
 cmake_dependent_option(${PROJECT_NAME}_BUILD_TESTS
@@ -205,71 +206,72 @@ endif()
 ## Packaging ##
 ###############
 
-# Let users choose where to install the cmake package descriptions
-# For that we make use of the CMake Cache
-set(${PROJECT_NAME}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" CACHE STRING "Path to install ${PROJECT_NAME} Config*.cmake files to.")
-set(${PROJECT_NAME}_MODULE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake"               CACHE STRING "Path to install ${PROJECT_NAME}'s .cmake  module files to.")
+if(${PROJECT_NAME}_INSTALL)
+    # Let users choose where to install the cmake package descriptions
+    # For that we make use of the CMake Cache
+    set(${PROJECT_NAME}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" CACHE STRING "Path to install ${PROJECT_NAME} Config*.cmake files to.")
+    set(${PROJECT_NAME}_MODULE_INSTALL_DIR "${CMAKE_INSTALL_LIBDIR}/cmake"               CACHE STRING "Path to install ${PROJECT_NAME}'s .cmake  module files to.")
 
-# Use version checking helper provided by CMake so that users can safely use a version number in their find_package calls
-write_basic_package_version_file(
-    ${PROJECT_NAME}ConfigVersion.cmake # The name of the version file needed by find_package.
-    VERSION ${PROJECT_VERSION}         # The version of the project, already set by the `project` command at the top of this file
-    COMPATIBILITY SameMajorVersion     # We use semantic versioning, backward compatibity is only guaranteed for a same major version
-)
-
-
-# We will need our own file if we have our own dependencies or want some special behavior when the user calls find_package
-# otherwise we could simply install the exports as the ${PROJECT_NAME}Config.cmake
-configure_package_config_file(
-    ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in # This is your template file
-    ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake          # This is the resulting file
-    INSTALL_DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}    # This is where the file will be installed
-    # List of paths that needs to be relocated once installed
-    # For example if the variable containing the path is named MY_PATH, all instances of @PACKAGE_MY_PATH@ in the template will be replaced by the relocated version of the path
-    # This is mostly only needed when you want to install cmake modules or have an unusual layout that cmake is not aware of.
-    PATH_VARS ${PROJECT_NAME}_MODULE_INSTALL_DIR # This will be exposed as @PACKAGE_BoilerPlate_MODULE_INSTALL_DIR@ in the template file   
-    # Imported targets do not require the following macros
-    NO_SET_AND_CHECK_MACRO
-    NO_CHECK_REQUIRED_COMPONENTS_MACRO 
-)
+    # Use version checking helper provided by CMake so that users can safely use a version number in their find_package calls
+    write_basic_package_version_file(
+        ${PROJECT_NAME}ConfigVersion.cmake # The name of the version file needed by find_package.
+        VERSION ${PROJECT_VERSION}         # The version of the project, already set by the `project` command at the top of this file
+        COMPATIBILITY SameMajorVersion     # We use semantic versioning, backward compatibity is only guaranteed for a same major version
+    )
 
 
-# The following will export the targets under the name ${PROJECT_NAME}_Targets, not install them yet
-# It will then need a call to `install(EXPORT)`
-install(
-    TARGETS 
-	  BoilerPlate # We can install executables
-	  bp_foo      # ... and libraries
-	  fmt         # If we compiled other libraries using add_subdirectory instead of find_package (target is not exported), we'll need to export them too (they are needed for linking) your library.
-    EXPORT ${PROJECT_NAME}_Targets
-# Following is only needed pre-cmake3.14
-#    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-#    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-#    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-# If you want to split between runtime and dev for examples, take a look at COMPONENT, NAMELINK_COMPONENT etc
-# More info in Craig Scott's talk "Deep CMake for library authors" https://www.youtube.com/watch?v=m0DwB4OvDXk
-    INCLUDES
-        DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
-)
-
-# This time, install all the exported targets under the ${PROJECT_NAME}_Targets name.
-install(
-    EXPORT ${PROJECT_NAME}_Targets 
-    NAMESPACE ${PROJECT_NAME}::        # Always specify a namespace so that users can make sure they link targets with transitive properties and not only the library
-    FILE ${PROJECT_NAME}Targets.cmake  # This is the file that needs to be included from your *Config.cmake. Otherwise, you could just make this your actual *Config.cmake file.
-    DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
-)
+    # We will need our own file if we have our own dependencies or want some special behavior when the user calls find_package
+    # otherwise we could simply install the exports as the ${PROJECT_NAME}Config.cmake
+    configure_package_config_file(
+        ${PROJECT_SOURCE_DIR}/cmake/${PROJECT_NAME}Config.cmake.in # This is your template file
+        ${PROJECT_BINARY_DIR}/${PROJECT_NAME}Config.cmake          # This is the resulting file
+        INSTALL_DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}    # This is where the file will be installed
+        # List of paths that needs to be relocated once installed
+        # For example if the variable containing the path is named MY_PATH, all instances of @PACKAGE_MY_PATH@ in the template will be replaced by the relocated version of the path
+        # This is mostly only needed when you want to install cmake modules or have an unusual layout that cmake is not aware of.
+        PATH_VARS ${PROJECT_NAME}_MODULE_INSTALL_DIR # This will be exposed as @PACKAGE_BoilerPlate_MODULE_INSTALL_DIR@ in the template file   
+        # Imported targets do not require the following macros
+        NO_SET_AND_CHECK_MACRO
+        NO_CHECK_REQUIRED_COMPONENTS_MACRO 
+    )
 
 
-# So far we only installed the exported targets, now install the package config files.
-# If you do not list headers in the PUBLIC_HEADER property, you will need to copy them using `install(FILES)` or `install(DIRECTORY)` too.
-# In that case, you can use CMAKE_INSTALL_INCLUDEDIR as the base destination path.
-install(FILES 
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
-    ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake 
-    DESTINATION
-        ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
-)
+    # The following will export the targets under the name ${PROJECT_NAME}_Targets, not install them yet
+    # It will then need a call to `install(EXPORT)`
+    install(
+        TARGETS 
+          BoilerPlate # We can install executables
+          bp_foo      # ... and libraries
+          fmt         # If we compiled other libraries using add_subdirectory instead of find_package (target is not exported), we'll need to export them too (they are needed for linking) your library.
+        EXPORT ${PROJECT_NAME}_Targets
+    # Following is only needed pre-cmake3.14
+    #    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    #    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    #    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    # If you want to split between runtime and dev for examples, take a look at COMPONENT, NAMELINK_COMPONENT etc
+    # More info in Craig Scott's talk "Deep CMake for library authors" https://www.youtube.com/watch?v=m0DwB4OvDXk
+        INCLUDES
+            DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    )
+
+    # This time, install all the exported targets under the ${PROJECT_NAME}_Targets name.
+    install(
+        EXPORT ${PROJECT_NAME}_Targets 
+        NAMESPACE ${PROJECT_NAME}::        # Always specify a namespace so that users can make sure they link targets with transitive properties and not only the library
+        FILE ${PROJECT_NAME}Targets.cmake  # This is the file that needs to be included from your *Config.cmake. Otherwise, you could just make this your actual *Config.cmake file.
+        DESTINATION ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+    )
 
 
+    # So far we only installed the exported targets, now install the package config files.
+    # If you do not list headers in the PUBLIC_HEADER property, you will need to copy them using `install(FILES)` or `install(DIRECTORY)` too.
+    # In that case, you can use CMAKE_INSTALL_INCLUDEDIR as the base destination path.
+    install(FILES 
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}Config.cmake
+        ${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}ConfigVersion.cmake 
+        DESTINATION
+            ${${PROJECT_NAME}_INSTALL_CMAKEDIR}
+    )
+
+endif()
 
