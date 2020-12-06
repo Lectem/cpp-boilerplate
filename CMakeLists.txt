@@ -207,6 +207,12 @@ endif()
 ###############
 
 if(${PROJECT_NAME}_INSTALL)
+    # If we want to use CPack, we need to include it so that it populates variables from our CMakeLists.txt.
+    # This will also create a `package` target on supported build systems (make, ninja, VS).
+    # There are various CPACK_* variables you can set before `include(CPack)` to configure it (see https://cmake.org/cmake/help/latest/module/CPack.html#variables-common-to-all-cpack-generators).
+    set(CPACK_RESOURCE_FILE_README ${CMAKE_CURRENT_LIST_DIR}/README.md)
+    include(CPack)
+    
     # Let users choose where to install the cmake package descriptions
     # For that we make use of the CMake Cache
     set(${PROJECT_NAME}_INSTALL_CMAKEDIR "${CMAKE_INSTALL_LIBDIR}/cmake/${PROJECT_NAME}" CACHE STRING "Path to install ${PROJECT_NAME} Config*.cmake files to.")
