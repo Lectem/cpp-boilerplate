@@ -21,6 +21,7 @@ target_include_directories(
     INTERFACE
     doctest/doctest # note : will expose the parts/ folder...
 )
+add_library(doctest::doctest ALIAS doctest)
 target_compile_features(doctest INTERFACE cxx_std_11)
 
 #Add new external (non-interface) targets to this list

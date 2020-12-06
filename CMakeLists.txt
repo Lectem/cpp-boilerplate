@@ -99,7 +99,7 @@ target_link_libraries(BoilerPlate
         #libraries/targets to link when linking this library
         #this will automatically setup the needed flags and dependencies when linking against this target
     PRIVATE # The following libraries are only linked for this target, and its flags/dependencies will not be used when linking against this target
-        general fmt spdlog::spdlog # It is possible to link some libraries for debug or optimized builds only
+        general fmt::fmt spdlog::spdlog # It is possible to link some libraries for debug or optimized builds only
         #debug DEBUGLIBS
         #optimized RELEASELIBS
 )

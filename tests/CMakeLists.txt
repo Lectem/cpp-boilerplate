@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.6)
 # Creating multiple executables is of course not mandatory, and one could use the same executable with various command lines to filter what tests to run.
 
 add_executable(failtest failtest.cpp)
-target_link_libraries(failtest doctest)
+target_link_libraries(failtest doctest::doctest)
 
 add_test(
     # Use some per-module/project prefix so that it is easier to run only tests for this module
@@ -20,7 +20,7 @@ set_tests_properties(
 )
 
 add_executable(successtest successtest.cpp)
-target_link_libraries(successtest doctest ${PROJECT_NAME}::foo)
+target_link_libraries(successtest doctest::doctest ${PROJECT_NAME}::foo)
 
 add_test(
     NAME BP.successtest
