@@ -54,12 +54,11 @@ include(Coverage)
 # You should try to give as much control over the project setup to the user.
 # When modifying compile flags for example, if they are not mandatory, provide an option.
 
-option(BP_USE_DOXYGEN "Add a doxygen target to generate the documentation" ON)
-
-option(BP_USE_ADDITIONAL_SOURCEFILE "Use the additional source file" ON)
+option(${PROJECT_NAME}_USE_DOXYGEN "Add a doxygen target to generate the documentation" ON)
+option(${PROJECT_NAME}_USE_ADDITIONAL_SOURCEFILE "Use the additional source file" ON)
 
 # Use your own option for tests, in case people use your library through add_subdirectory
-cmake_dependent_option(BP_BUILD_TESTS
+cmake_dependent_option(${PROJECT_NAME}_BUILD_TESTS
     "Enable ${PROJECT_NAME} project tests targets" ON # By default we want tests if CTest is enabled
     "BUILD_TESTING" OFF # Stay coherent with CTest variables
 )
@@ -110,7 +109,7 @@ target_sources(BoilerPlate
     PRIVATE
       $<$<PLATFORM_ID:Windows>:source/windows-only.cpp> # Use of generator expressions https://cmake.org/cmake/help/latest/manual/cmake-generator-expressions.7.html
 )
-if(BP_USE_ADDITIONAL_SOURCEFILE)
+if(${PROJECT_NAME}_USE_ADDITIONAL_SOURCEFILE)
     target_sources(BoilerPlate PRIVATE source/additional-sourcefile.cpp)
     # You can add defines if needed. PRIVATE means it will only be defined for this target. (see transitive usage)
     target_compile_definitions(BoilerPlate PRIVATE HAS_ADDITIONAL_SOURCEFILE)
@@ -161,13 +160,14 @@ target_link_libraries(bp_foo
         fmt::fmt # Use the namespaced version to make sure we have the target and not the static lib only (which doesn't have transitive properties)
 )
 # Give a 'namespaced' name to libraries targets, as it can't be mistaken with system libraries
-add_library(bp::foo ALIAS bp_foo)
+# Use the same namespace as the one from the install command. This is only really needed if you want to support usage of your library through add_subdirectory.
+add_library(${PROJECT_NAME}::foo ALIAS bp_foo)
 
 #===========#
 #   Tests   #
 #===========#
 
-if(BP_BUILD_TESTS)
+if(${PROJECT_NAME}_BUILD_TESTS)
     # Let the user add options to the test runner if needed
     set(TEST_RUNNER_PARAMS "--force-colors=true" CACHE STRING "Options to add to our test runners commands")
     # In a real project you most likely want to exclude test folders
@@ -186,7 +186,7 @@ endif()
 ## Doxygen ##
 #############
 
-if(BP_USE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
+if(${PROJECT_NAME}_USE_DOXYGEN AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.9)
     find_package(Doxygen
         OPTIONAL_COMPONENTS dot mscgen dia
     )

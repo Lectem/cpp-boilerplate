@@ -20,7 +20,7 @@ set_tests_properties(
 )
 
 add_executable(successtest successtest.cpp)
-target_link_libraries(successtest doctest bp::foo)
+target_link_libraries(successtest doctest ${PROJECT_NAME}::foo)
 
 add_test(
     NAME BP.successtest
