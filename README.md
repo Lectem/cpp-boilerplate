@@ -29,7 +29,7 @@ If you want to bootstrap a new project you only need to :
 -   Ready to go !
 
 The CI providers used and that might need some setup :
-
+-   Github actions (no setup required)
 -   Travis CI, for GCC / Clang on Linux/MacOS
 -   AppVeyor, for MSVC on Windows
 -   Codecov.io, for the codecoverage reports
