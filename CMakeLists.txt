@@ -254,6 +254,8 @@ if(${PROJECT_NAME}_INSTALL)
     #    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     #    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     #    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+		# Note PUBLIC_HEADER DESTINATION is necessary only if you provide RUNTIME/LIBRARY/ARCHIVE otherwise CMake will map it to the INCLUDES destination (CMake will warn you with "INSTALL TARGETS - target BoilerPlate has PUBLIC_HEADER files but no PUBLIC_HEADER DESTINATION." )
+	#	PUBLIC_HEADER DESTINATION  ${CMAKE_INSTALL_INCLUDEDIR} 
     # If you want to split between runtime and dev for examples, take a look at COMPONENT, NAMELINK_COMPONENT etc
     # More info in Craig Scott's talk "Deep CMake for library authors" https://www.youtube.com/watch?v=m0DwB4OvDXk
         INCLUDES
