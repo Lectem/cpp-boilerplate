@@ -145,13 +145,13 @@ add_library(bp_foo
 # Since we put the public interface headers in the include directory, we need to tell the compiler so that we can #include <file>.
 target_include_directories(bp_foo
     PUBLIC # The folder must be used in the include path for any target using this library
-        $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include> # Due to the way installation work, we only want this path set when building, not once installed
+        $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include> # Due to the way installation work, we only want this path set when building, not once installed
 )
 
 # The following properties are useful when you want to have an 'install' target
 set_target_properties(${PROJECT_NAME} 
     PROPERTIES 
-        PUBLIC_HEADER ${CMAKE_CURRENT_SOURCE_DIR}/include/foo.h # Headers listed here will automatically be copied when installing. Note that directories hierarchy is not preserved.
+        PUBLIC_HEADER ${CMAKE_CURRENT_LIST_DIR}/include/foo.h # Headers listed here will automatically be copied when installing. Note that directories hierarchy is not preserved.
         DEBUG_POSTFIX d # We had a postfix so that we can install debug and release libraries side by side (Windows way)
 )
 
