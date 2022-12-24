@@ -1,5 +1,7 @@
 project(external C CXX)
 
+set(CMAKE_FOLDER external) # This will regroup all the external targets in a subfolder in IDEs such as Visual Studio
+
 set(BUILD_TESTING_BCKP ${BUILD_TESTING})
 set(BUILD_TESTING OFF CACHE BOOL "Force disable of tests for external dependencies" FORCE)
 
@@ -23,8 +25,5 @@ target_include_directories(
 )
 add_library(doctest::doctest ALIAS doctest)
 target_compile_features(doctest INTERFACE cxx_std_11)
-
-#Add new external (non-interface) targets to this list
-set_target_properties(fmt PROPERTIES FOLDER "external")
 
 set(BUILD_TESTING ${BUILD_TESTING_BCKP} CACHE BOOL "Build tests (default variable for CTest)" FORCE) #Set it back to its past value
