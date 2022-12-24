@@ -15,6 +15,7 @@ target_set_warnings(fmt DISABLE ALL)              # Treat fmtlib as a system inc
 #Use spdlog for logging, and tell it to use our version of fmtlib
 add_subdirectory(spdlog EXCLUDE_FROM_ALL)
 target_compile_definitions(spdlog INTERFACE SPDLOG_FMT_EXTERNAL)
+target_set_warnings(spdlog DISABLE ALL)              # Treat spdlog as a system include as to ignore the warnings
 
 #Doctest for unit tests
 add_library(doctest INTERFACE)
