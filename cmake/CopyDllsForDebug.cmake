@@ -13,18 +13,23 @@ if(RUN_IT)
 	fixup_bundle("${TO_FIXUP_FILE}" "${TO_FIXUP_LIBS}" "${TO_FIXUP_DIRS}")
 # End of script ran by the add_custom_command
 else()
+	set(THIS_FILE ${CMAKE_CURRENT_LIST_FILE} PARENT_SCOPE)
+	function(copy_dlls_for_debug _target _libs _dirs)
+		if(WIN32)
 
-set(THIS_FILE ${CMAKE_CURRENT_LIST_FILE})
-function(copy_dlls_for_debug _target _libs _dirs)
-	if(WIN32)
-		add_custom_command(
-			TARGET ${_target} POST_BUILD
-			COMMAND ${CMAKE_COMMAND} -DRUN_IT:BOOL=ON -DTO_FIXUP_FILE=$<TARGET_FILE:${_target}> -DTO_FIXUP_LIBS=${_libs} -DTO_FIXUP_DIRS=${_dirs} -P ${THIS_FILE}
-			COMMENT "Fixing up dependencies for ${_target}"
-			VERBATIM
-		)
-	endif(WIN32)
-endfunction()
-
+			if(CMAKE_VERSION GREATER_EQUAL 3.21)
+				add_custom_command(TARGET ${_target} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -E copy -t $<TARGET_FILE_DIR:${_target}> $<TARGET_RUNTIME_DLLS:${_target}>
+					COMMAND_EXPAND_LISTS
+				)
+			else()
+				add_custom_command(
+					TARGET ${_target} POST_BUILD
+					COMMAND ${CMAKE_COMMAND} -DRUN_IT:BOOL=ON -DTO_FIXUP_FILE=$<TARGET_FILE:${_target}> -DTO_FIXUP_LIBS=${_libs} -DTO_FIXUP_DIRS=${_dirs} -P ${THIS_FILE}
+					COMMENT "Fixing up dependencies for ${_target}"
+					VERBATIM
+				)
+			endif()
+		endif(WIN32)
+	endfunction()
 endif()
-
