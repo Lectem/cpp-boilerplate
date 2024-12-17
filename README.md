@@ -4,7 +4,7 @@
 [![Appveyor build status](https://ci.appveyor.com/api/projects/status/63mnrl1am9plfc4f/branch/master?svg=true)](https://ci.appveyor.com/project/Lectem/boilerplate/branch/master)
 [![Coverage](https://codecov.io/gh/Lectem/cpp-boilerplate/branch/master/graph/badge.svg)](https://codecov.io/gh/Lectem/cpp-boilerplate)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/dfaaaa975fd349b4a565500d97c8d5e1)](https://app.codacy.com/gh/Lectem/cpp-boilerplate/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Lectem/cpp-boilerplate.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Lectem/cpp-boilerplate/context:cpp)
+[![image](https://github.com/Lectem/cpp-boilerplate/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Lectem/cpp-boilerplate/actions/workflows/github-code-scanning/codeql)
 [![CDash dashboard](https://img.shields.io/badge/CDash-Access-blue.svg)](http://my.cdash.org/index.php?project=cpp-boilerplate)
 
 [![Pull requests](https://img.shields.io/github/issues-pr-raw/Lectem/cpp-boilerplate.svg)](https://github.com/Lectem/cpp-boilerplate/pulls)
