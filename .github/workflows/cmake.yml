@@ -1,5 +1,7 @@
 name: CMake
-
+permissions:
+  contents: read
+  
 on:
   push:
     # Always trigger CI on push
