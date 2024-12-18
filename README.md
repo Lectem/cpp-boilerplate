@@ -30,7 +30,6 @@ If you want to bootstrap a new project you only need to :
 
 The CI providers used and that might need some setup :
 -   Github actions (no setup required)
--   Travis CI, for GCC / Clang on Linux/MacOS
 -   AppVeyor, for MSVC on Windows
 -   Codecov.io, for the codecoverage reports
 -   CDash, for test and coverage reports using CTest. Can also be used to build nightlies.
@@ -50,8 +49,7 @@ The CI providers used and that might need some setup :
 -   Warnings.cmake script : A wrapper around common warning settings
 -   Basic unit-testing using [doctest](https://github.com/onqtam/doctest)
 -   Coverage.cmake : Test coverage script to add a 'Coverage' build type to CMake
--   Generating the documentation through TravisCI requires that you setup a Github Token, see <https://docs.travis-ci.com/user/deployment/pages/> .
--   The lgtm.com website already knows about cmake and can build most of the projects without any special configuration. A sample configuration is in this project to show how to tag files and disable unneeded warnings. The external folder is automatically recognized and files are tagged as library.
+-   CodeQL already knows about cmake and can build most of the projects without any special configuration. A sample configuration is in this project, mostly due to using submodules.
 
     ## FAQ
 
