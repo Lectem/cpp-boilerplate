@@ -36,7 +36,7 @@ The CI providers used and that might need some setup :
 
 ## Requirements :
 
--   CMake 3.8.2 (Not needed for all scripts)
+-   CMake 3.16 (Not needed for all scripts)
 -   Git (for the submodules)
 -   Any of the CI providers listed above if needed.
 
@@ -51,11 +51,11 @@ The CI providers used and that might need some setup :
 -   Coverage.cmake : Test coverage script to add a 'Coverage' build type to CMake
 -   CodeQL already knows about cmake and can build most of the projects without any special configuration. A sample configuration is in this project, mostly due to using submodules.
 
-    ## FAQ
+## FAQ
 
 **Q**: I'm new to this CMake stuff, where do I start ?
 
-**A**: I would suggest reading [CGold](https://cgold.readthedocs.io) which covers this way better than I could. 
+**A**: I would suggest reading my [blog posts](https://siliceum.com/en/blog/post/cmake_01_cmake-basics), [CGold](https://cgold.readthedocs.io) or [An introduction to Modern CMake](https://cliutils.gitlab.io/modern-cmake/README.html) or simply the latest and official [tutorial](https://cmake.org/cmake/help/latest/guide/tutorial/index.html)!
 
 ___
 
@@ -69,7 +69,7 @@ ___
 **Q**: Should I always put my dependencies in the folder external
 
 **A**: Absolutely not ! It is a great place for small libraries, but you probably don't want to have to rebuild big libs every time.
-For those, you can use a package manager such as [Hunter](https://github.com/ruslo/hunter) or simply rely on find_package/library.
+For those, you can use a package manager such as [VCPKG](https://github.com/microsoft/vcpkg/), [CPM](https://github.com/cpm-cmake/CPM.cmake) or simply rely on `find_package`.
 
 ___
 
